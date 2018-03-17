@@ -5,7 +5,7 @@ set -e;
 
 
 get_opts() {
-	while getopts ":u:" opt; do
+	while getopts ":u" opt; do
 	  case $opt in
 			u) export opt_upload="1";
 			;;
