@@ -9,7 +9,7 @@ LABEL \
 	MAINTAINER="camalot <camalot@gmail.com>"
 
 
-ADD https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py speedtest_cli
+ADD https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py speedtest_cli
 
 RUN chmod +x speedtest_cli
 
