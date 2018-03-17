@@ -9,6 +9,7 @@ if(env.BRANCH_NAME ==~ /master$/) {
 node ("node") {
 	def ProjectName = "speedtest-cli"
 	def slack_notify_channel = null
+	def teamName = "docker-scripts"
 	def MAJOR_VERSION = 1
 	def MINOR_VERSION = 0
 
