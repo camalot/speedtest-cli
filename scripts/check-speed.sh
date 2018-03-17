@@ -24,11 +24,11 @@ ACTION="${opt_action:-"download"}";
 
 DATA=$(docker run --rm camalot/speedtest-cli --simple);
 # (>&2 echo "$DATA");
-DOWNLOAD=$(awk '/^(Download:\s+)([0-9]+\.[0-9]+)\s+Mbit\/s$/ {print $2}' <<< $DATA);
+DOWNLOAD=$(awk '/^(Download:\s+)([0-9]+\.[0-9]+)\s+Mbit\/s$/ {print $2}' <<< "${DATA}");
 (>&2 echo "Download: $DOWNLOAD Mbit/s");
-UPLOAD=$(awk '/^(Upload:\s+)([0-9]+\.[0-9]+)\s+Mbit\/s$/ {print $2}'<<< $DATA);
+UPLOAD=$(awk '/^(Upload:\s+)([0-9]+\.[0-9]+)\s+Mbit\/s$/ {print $2}' <<< "${DATA}");
 (>&2 echo "Upload: $UPLOAD Mbit/s");
-PING=$(awk '/^(Ping:\s+)([0-9]+\.[0-9]+)\sms$/ {print $2}'<<< $DATA);
+PING=$(awk '/^(Ping:\s+)([0-9]+\.[0-9]+)\sms$/ {print $2}' <<< "${DATA}");
 (>&2 echo "Ping: $PING ms");
 RESULT=0;
 MESSAGE="OK: Ping: $PING ms | Download: $DOWNLOAD Mbit/s | Upload: $UPLOAD Mbit/s";
