@@ -5,9 +5,9 @@ set -e;
 
 
 get_opts() {
-	while getopts ":n:v:o:f" opt; do
+	while getopts ":u:" opt; do
 	  case $opt in
-			a) export opt_action="$OPTARG";
+			u) export opt_upload="1";
 			;;
 			\?) echo "Invalid option -$OPTARG" >&2;
 			exit 1;
@@ -20,7 +20,7 @@ get_opts() {
 
 get_opts "$@";
 
-ACTION="${opt_action:-"download"}";
+UPLOAD_ACTION="${opt_upload:-"0"}";
 
 DATA=$(docker run --rm camalot/speedtest-cli --simple);
 # (>&2 echo "$DATA");
@@ -28,7 +28,7 @@ DOWNLOAD=$(awk '/^(Download:\s+)([0-9]+\.[0-9]+)\s+Mbit\/s$/ {print $2}' <<< "${
 (>&2 echo "Download: $DOWNLOAD Mbit/s");
 UPLOAD=$(awk '/^(Upload:\s+)([0-9]+\.[0-9]+)\s+Mbit\/s$/ {print $2}' <<< "${DATA}");
 (>&2 echo "Upload: $UPLOAD Mbit/s");
-PING=$(awk '/^(Ping:\s+)([0-9]+\.[0-9]+)\sms$/ {print $2}' <<< "${DATA}");
+PING=$(awk '/^(Ping:\s+)([0-9]+\.[0-9]+)\s+ms$/ {print $2}' <<< "${DATA}");
 (>&2 echo "Ping: $PING ms");
 RESULT=0;
 MESSAGE="OK: Ping: $PING ms | Download: $DOWNLOAD Mbit/s | Upload: $UPLOAD Mbit/s";
@@ -60,7 +60,7 @@ elif [ $(echo ${PING:-"100"}'>'$PMID | bc -l) == 1 ]; then
 	MESSAGE="WARNING: Ping is above $PMID ms (Ping: $PING ms | Download: $DOWNLOAD Mbit/s | Upload: $UPLOAD Mbit/s)";
 fi
 
-if [ "$ACTION" == "download" ]; then
+if [ "$UPLOAD_ACTION" == "0" ]; then
 	echo "$RESULT:$DOWNLOAD:$MESSAGE";
 else
 	echo "$RESULT:$UPLOAD:$MESSAGE";
