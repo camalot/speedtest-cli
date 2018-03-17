@@ -29,7 +29,7 @@ DOWNLOAD=$(awk '/^(Download:\s+)([0-9]+\.[0-9]+)\s+Mbit\/s$/ {print $2}' <<< "${
 UPLOAD=$(awk '/^(Upload:\s+)([0-9]+\.[0-9]+)\s+Mbit\/s$/ {print $2}' <<< "${DATA}");
 # (>&2 echo "Upload: $UPLOAD Mbit/s");
 PING=$(awk '/^(Ping:\s+)([0-9]+\.[0-9]+)\s+ms$/ {print $2}' <<< "${DATA}");
-(>&2 echo "Ping: $PING ms");
+# (>&2 echo "Ping: $PING ms");
 RESULT=0;
 MESSAGE="OK: Ping: $PING ms | Download: $DOWNLOAD Mbit/s | Upload: $UPLOAD Mbit/s";
 
