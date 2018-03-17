@@ -23,12 +23,12 @@ get_opts "$@";
 ACTION="${opt_action:-"download"}";
 
 DATA=$(docker run --rm camalot/speedtest-cli --simple);
-(>&2 echo "$DATA");
-DOWNLOAD=$(echo $DATA | awk '/(Download:\s+)([0-9]+\.[0-9]+)\s(Mbit\/s)/ {print $2}');
+# (>&2 echo "$DATA");
+DOWNLOAD=$(echo $DATA | awk '/^(Download:\s+)([0-9]+\.[0-9]+)\s(Mbit\/s)\$/ {print $2}');
 (>&2 echo "Download: $DATA Mbit/s");
-UPLOAD=$(echo $DATA | awk '/(Upload:\s+)([0-9]+\.[0-9]+)\s(Mbit\/s)/ {print $2}');
+UPLOAD=$(echo $DATA | awk '/^(Upload:\s+)([0-9]+\.[0-9]+)\s(Mbit\/s)\$/ {print $2}');
 (>&2 echo "Upload: $DATA Mbit/s");
-PING=$(echo $DATA | awk '/(Ping:\s+)([0-9]+\.[0-9]+)\s(ms)/ {print $2}');
+PING=$(echo $DATA | awk '/^(Ping:\s+)([0-9]+\.[0-9]+)\s(ms)\$/ {print $2}');
 (>&2 echo "Ping: $PING ms");
 RESULT=0;
 MESSAGE="OK: Ping: $PING ms | Download: $DOWNLOAD Mbit/s | Upload: $UPLOAD Mbit/s";
@@ -54,7 +54,7 @@ elif [ $(echo $UMID'>'$UPLOAD | bc -l) == 1 ]; then
 	MESSAGE="WARNING: Upload Speed below $DMID Mbit/s (Ping: $PING ms | Download: $DOWNLOAD Mbit/s | Upload: $UPLOAD Mbit/s)";
 elif [ $(echo $PING'>'$PHIGH | bc -l) == 1 ]; then
 	RESULT=2;
-	MESSAGE="ERROR: Upload Speed below $PHIGH ms (Ping: $PING ms | Download: $DOWNLOAD Mbit/s | Upload: $UPLOAD Mbit/s)";
+	MESSAGE="ERROR: Ping is above $PHIGH ms (Ping: $PING ms | Download: $DOWNLOAD Mbit/s | Upload: $UPLOAD Mbit/s)";
 elif [ $(echo $PING'>'$PMID | bc -l) == 1 ]; then
 	RESULT=1;
 	MESSAGE="WARNING: Ping is above $PMID ms (Ping: $PING ms | Download: $DOWNLOAD Mbit/s | Upload: $UPLOAD Mbit/s)";
