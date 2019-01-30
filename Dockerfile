@@ -1,6 +1,6 @@
-FROM elyase/pyrun:2.7
+FROM python:alpine3.7
 
-ARG PROJECT_NAME="deluge"
+ARG PROJECT_NAME="speedtest_cli"
 ARG BUILD_VERSION="1.0.0-snapshot"
 
 LABEL \
@@ -11,6 +11,9 @@ LABEL \
 
 ADD https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py speedtest_cli
 
-RUN chmod +x speedtest_cli
+RUN chmod +x speedtest_cli && \
+	pip install install pyopenssl && \
+	pip install ndg-httpsclient && \
+	pip install pyasn1
 
 ENTRYPOINT ["./speedtest_cli"]
