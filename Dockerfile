@@ -11,9 +11,6 @@ LABEL \
 
 ADD https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py speedtest_cli
 
-RUN chmod +x speedtest_cli && \
-	pip install install pyopenssl && \
-	pip install ndg-httpsclient && \
-	pip install pyasn1
+RUN chmod +x speedtest_cli
 
 ENTRYPOINT ["./speedtest_cli"]
