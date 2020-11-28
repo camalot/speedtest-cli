@@ -17,7 +17,7 @@ get_opts "$@";
 
 UPLOAD_ACTION="${opt_upload:-"0"}";
 
-DATA=$(docker run --rm camalot/speedtest-cli --simple);
+DATA=$(docker run --rm camalot/speedtest-cli:latest --simple);
 EXIT_CODE="$?";
 # (>&2 echo "$DATA");
 DOWNLOAD=$(awk '/^(Download:\s+)([0-9]+\.[0-9]+)\s+Mbit\/s$/ {print $2}' <<< "${DATA}");
